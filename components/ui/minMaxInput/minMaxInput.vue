@@ -11,8 +11,8 @@ const emit = defineEmits<{
     (e: 'update:modelValue', value: { minValue: number; maxValue: number }): void;
 }>();
 
-const minValue = ref(props.modelValue.minValue);
-const maxValue = ref(props.modelValue.maxValue);
+const minValue = ref<number>(Number(props.modelValue.minValue));
+const maxValue = ref<number>(Number(props.modelValue.maxValue));
 
 const minError = computed(() => {
     if (minValue.value < props.min) {
@@ -36,6 +36,8 @@ const rangeError = computed(() => {
 });
 
 watch([minValue, maxValue], ([newMinValue, newMaxValue]) => {
+    if(minValue.value === '') minValue.value = 0
+    if(maxValue.value === '') minValue.value = 0
     emit('update:modelValue', { minValue: newMinValue, maxValue: newMaxValue });
 });
 </script>
